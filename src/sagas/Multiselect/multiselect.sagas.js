@@ -6,8 +6,16 @@ import * as MULTISELECT_ACTION_TYPES from '../../store/reducers/Multiselect/mult
 
 const ops = {};
 options.forEach(option => {
-  ops[option.id] = option;
+  ops[option.id] = {...option};
+  ops[option.id].cites = {}
+  if (option.cites && option.cites.length) {
+    option.cites.map(city => {
+      ops[option.id].cites[city.id] = city;
+    })
+  }
 })
+
+console.log(ops);
 
 function* loadItems() {
   yield put({type: MULTISELECT_ACTION_TYPES.LOADING_ITEMS_START});
@@ -15,11 +23,15 @@ function* loadItems() {
   yield put({type: MULTISELECT_ACTION_TYPES.LOADING_ITEMS_STOP, options:{...ops}});
 }
 
-function* onToggle({checked, id}) {
+function* onToggle({checked, id, parentId}) {
+  const payload = {
+    id,
+    parentId
+  }
   if (checked) {
-    yield put({type: MULTISELECT_ACTION_TYPES.PUSH_ITEM, payload: id});
+    yield put({type: MULTISELECT_ACTION_TYPES.PUSH_ITEM, payload});
   } else {
-    yield put({type: MULTISELECT_ACTION_TYPES.PULL_ITEM, payload: id});
+    yield put({type: MULTISELECT_ACTION_TYPES.PULL_ITEM, payload});
   }
 }
 
@@ -30,8 +42,11 @@ function* reset() {
 }
 
 
-function* filterOptions({param}) {
-  yield put({type: MULTISELECT_ACTION_TYPES.FILTER_OPTIONS, param});
+function* filterOptions({payload}) {
+  yield put({
+    type: MULTISELECT_ACTION_TYPES.FILTER_OPTIONS,
+    payload
+  });
 }
 
 export function* multiselectSagaWatcher() {

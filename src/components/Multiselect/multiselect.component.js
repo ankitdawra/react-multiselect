@@ -1,8 +1,12 @@
+import React from 'react';
 import {useState, useEffect, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import * as TYPES from '../../sagas/Multiselect/types';
 import Loader from '../Loader/loader.component';
 import Option from './option.component';
+import SelectedOption from '../SelectedOptions/selectedOption.component';
+import SelectedOptions from '../SelectedOptions/selectedOptions.component';
+import './multiselect.scss';
 
 // function debounce(cb, time) {
 //   if (timer) {
@@ -14,9 +18,9 @@ import Option from './option.component';
 // }
 
 
-function MultiSelect() {
+function MultiSelect({canSelectMultiple, displayKey}) {
   const [showOptions, toggleOptions] = useState(true);
-  const [isMultiSelect, setMultiSelect] = useState(true);
+  const [isMultiSelect, setMultiSelect] = useState(canSelectMultiple);
   const [filterVal, setFilterVal] = useState('');
   const dispatch = useDispatch();
 
@@ -26,12 +30,13 @@ function MultiSelect() {
     dispatch({type: TYPES.LOADING_ITEMS_START})
   }, [])
 
-  const onCheckHandler = useCallback(({target: {value: id, checked}}) => {
-    console.log(id, checked);
+  const onCheckHandler = useCallback(({target: {value: id, checked}}, parentId) => {
+    console.log(id, checked, parentId);
     dispatch({
       type: TYPES.ON_ITEM_TOGGLE,
       id,
-      checked
+      checked,
+      parentId
     })
   }, []);
 
@@ -44,20 +49,24 @@ function MultiSelect() {
     setMultiSelect(!isMultiSelect);
   }
 
-  const onPull = () => {
+  const onDelete = useCallback((event, id) => {
+    event.stopPropagation();
     dispatch({
       type: TYPES.ON_ITEM_TOGGLE,
-      id:1,
+      id,
       checked: false
     })
-  }
+  }, []);
 
   const handleFilterChange = ({target: {value}}) => {
     setFilterVal(value);
     // debounce(() => {
     dispatch({
       type: TYPES.FILTER_OPTIONS,
-      param: value
+      payload: {
+        param: value,
+        filterParam: displayKey
+      }
     });
       // }, 1000);
   }
@@ -68,43 +77,81 @@ function MultiSelect() {
     )
   }
 
-  console.log(options);
-  console.log(selectedData);
+  let selectedOptionsArray = [];
+  if (selectedData.length) {
+    selectedOptionsArray = selectedData.map(v => options[v]);
+  }
 
+  // console.log(options);
+  // console.log('selectedData'+selectedData);
+  // console.log('selectedOptionsArray'); console.log(selectedOptionsArray);
   return (
-    <>
+    <div className="multiselect-view">
       <div>
-        <button className="btn btn-default"
+        <button type="button"
+                className={`btn form-group ${isMultiSelect ? 'btn-primary' : 'btn-light'}`}
                 onClick={onMultiSelectClick}>
           MultiSelect : {isMultiSelect ? 'ON' : 'OFF'}
         </button>
-        <button className="btn btn-default"
-                onClick={onPull}>
-          Pull me
-        </button>
-        <div onClick={() => toggleOptions(!showOptions)}>
-          {selectedData.length ? selectedData.join(',') : 'Please select a value'}
-        </div>
-        {showOptions && (
-          <div>
+        <div className="form-group">
+          <div className="selected-options form-group"
+               onClick={() => toggleOptions(!showOptions)}>
+            {selectedOptionsArray.length > 0 ? 
+              selectedOptionsArray.map(option => 
+                <SelectedOption
+                  key={option.id}
+                  id={option.id}
+                  displayVal={option[displayKey]}
+                  onDelete={onDelete}/>
+              ) : 'Please select a value'}
+            <span className={`show-options-icon ${showOptions ? 'open-icon' : 'close-icon'}`}>^</span>
+          </div>
+          <div className={`options ${showOptions ? 'visible' : null}`}>
             <input
               type="text"
               value={filterVal}
-              onChange={handleFilterChange}/>
-            {Object.values(options).map(({id, name, checked, hidden}) => (
-              <Option
-                key={id}
-                id={id}
-                name={name}
-                isChecked={checked}
-                hidden={hidden}
-                isDisabled={!isMultiSelect && selectedData.length && !selectedData.includes(id) ? true : false}
-                onCheckHandler={onCheckHandler}/>
+              onChange={handleFilterChange}
+              className="form-control"
+              placeholder={`Search for a ${displayKey}`}/>
+            {Object.values(options).map(option => (
+              <React.Fragment key={option.id}>
+                <Option
+                  id={option.id}
+                  displayVal={option[displayKey]}
+                  hidden={option.hidden}
+                  isChecked={option.checked}
+                  isDisabled={!isMultiSelect && selectedData.length && !selectedData.includes(option.id) ? true : false}
+                  onCheckHandler={onCheckHandler}/>
+
+                {option.cites && Object.values(option.cites).map(v => (
+                  <Option
+                    key={v.id}
+                    id={v.id}
+                    displayVal={v[displayKey]}
+                    hidden={v.hidden}
+                    isChecked={v.checked}
+                    isDisabled={!isMultiSelect && selectedData.length && !selectedData.includes(v.id) ? true : false}
+                    onCheckHandler={onCheckHandler}
+                    parentId={option.id}/>
+                  ) 
+                )}
+              </React.Fragment>
             ))}
           </div>
-        )}
+        </div>
       </div>
-    </>
+      <div>
+        <button
+          type="button"
+          className="btn btn-light btn-lg btn-block mb-2">Selected Items</button>
+        {selectedOptionsArray.length > 0 && 
+          <SelectedOptions
+            selectedOptionsArray={selectedOptionsArray}
+            displayKey={displayKey}
+            onDelete={onDelete}/>
+        }
+      </div>
+    </div>
   )
 }
 

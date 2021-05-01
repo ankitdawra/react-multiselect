@@ -1,22 +1,25 @@
 import React from 'react';
 
-function Option({id, name, isChecked, onCheckHandler, isDisabled, hidden}) {
+function Option({id, displayVal, hidden, isChecked, isDisabled, onCheckHandler, parentId}) {
   console.log(id);
   if (hidden) {
     return null;
   }
   return (
-    <div>
-      <label>
-        <input
-          type="checkbox"
-          onChange={onCheckHandler}
-          value={id}
-          disabled={isDisabled}
-          checked={isChecked}/>
-        {name}
-      </label>
-    </div>
+    <>
+      <div className={`form-check option ${parentId ? 'pl-5' : undefined}`}>
+        <label className="form-check-label d-block">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            onChange={e => onCheckHandler(e, parentId)}
+            value={id}
+            disabled={isDisabled}
+            checked={isChecked}/>
+          {displayVal}
+        </label>
+      </div>
+    </>
   )
 }
 

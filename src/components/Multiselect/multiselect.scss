@@ -1,0 +1,51 @@
+.multiselect-view {
+  display: flex;
+
+  > div {
+    flex: 1;
+    padding: 10px;
+    border: 1px dotted;
+  }
+
+  .selected-options {
+    border: 1px solid #ccc;
+    padding: 10px;
+    color: grey;
+    position: relative;
+
+    .show-options-icon {
+      position: absolute;
+      right: 9px;
+      font-size: 2em;
+      line-height: 0px;
+      transition: .35s ease-in-out;
+
+      &.open-icon {
+        top: 43%;
+        transform: rotate(180deg);
+      }
+
+      &.close-icon {
+        top: 66%;
+        transform: rotate(0deg);
+      }
+    }
+  }
+
+  .options {
+    transition: 0.35s ease-in-out;
+    height: 0;
+    overflow: scroll;
+
+    &.visible {
+      height: 300px;
+    }
+
+    .option {
+      padding: 10px 2em;
+      color: grey;
+      border: 1px solid #ccc;
+      border-top: 0;
+    }
+  }
+}

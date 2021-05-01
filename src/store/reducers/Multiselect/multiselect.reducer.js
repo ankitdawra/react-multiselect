@@ -36,13 +36,13 @@ function MultiselectReducer(state = initialState, action) {
       //   }
       //   return op;
       // });
-      state.options[action.payload] = {
-        ...state.options[action.payload],
+      state.options[action.payload.id] = {
+        ...state.options[action.payload.id],
         checked: true
       }
       return {
         ...state,
-        selectedData: state.selectedData.concat(parseInt(action.payload)),
+        selectedData: state.selectedData.concat(parseInt(action.payload.id)),
         // options: updatedOptions
       };
 
@@ -75,10 +75,11 @@ function MultiselectReducer(state = initialState, action) {
 
     case TYPES.FILTER_OPTIONS:
       const filteredOptions = {...state.options};
+      const {param, filterParam} = action.payload;
       for(let id in filteredOptions) {
         filteredOptions[id].hidden = 
-          action.param && 
-          (!filteredOptions[id].name.toLowerCase().includes(action.param.toLowerCase()))
+          param && 
+          (!filteredOptions[id][filterParam].toLowerCase().includes(param.toLowerCase()))
       }
       return {
         ...state,

@@ -5,7 +5,33 @@ export const options = [
     title: 'This is india',
     name: 'India',
     icon: '',
-    checked: false
+    checked: false,
+    cites: [
+      {
+        id: 11,
+        value: 'Del',
+        title: 'This is delhi',
+        name: 'Delhi',
+        icon: '',
+        checked: false,
+      },
+      {
+        id: 12,
+        value: 'Pun',
+        title: 'This is punjab',
+        name: 'Punjab',
+        icon: '',
+        checked: false,
+      },
+      {
+        id: 13,
+        value: 'Har',
+        title: 'This is haryana',
+        name: 'Haryana',
+        icon: '',
+        checked: false,
+      },
+    ]
   },
   {
     id: 2,
@@ -26,8 +52,8 @@ export const options = [
   {
     id: 4,
     value: 'Ger',
-    title: 'This is geremany',
-    name: 'Geremany',
+    title: 'This is germany',
+    name: 'Germany',
     icon: '',
     checked: false
   },

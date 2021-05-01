@@ -7,12 +7,12 @@ import * as MULTISELECT_ACTION_TYPES from '../../store/reducers/Multiselect/mult
 const ops = {};
 options.forEach(option => {
   ops[option.id] = {...option};
-  ops[option.id].cites = {}
-  if (option.cites && option.cites.length) {
-    option.cites.map(city => {
-      ops[option.id].cites[city.id] = city;
-    })
-  }
+  // ops[option.id].cites = {}
+  // if (option.cites && option.cites.length) {
+  //   option.cites.map(cityId => {
+  //     ops[option.id].cites[cityId] = options.find(op => op.id === cityId)
+  //   })
+  // }
 })
 
 console.log(ops);

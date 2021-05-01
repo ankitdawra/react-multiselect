@@ -16,6 +16,7 @@ function SelectedOptions({selectedOptionsArray, displayKey, onDelete}) {
         <SelectedOption
           key={option.id}
           id={option.id}
+          parentId={option.parent}
           displayVal={option[displayKey]}
           onDelete={onDelete}/>
         )

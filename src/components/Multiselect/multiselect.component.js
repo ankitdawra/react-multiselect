@@ -31,7 +31,7 @@ function MultiSelect({canSelectMultiple, displayKey}) {
   }, [])
 
   const onCheckHandler = useCallback(({target: {value: id, checked}}, parentId) => {
-    console.log(id, checked, parentId);
+    // console.log(id, checked, parentId);
     dispatch({
       type: TYPES.ON_ITEM_TOGGLE,
       id,
@@ -49,11 +49,12 @@ function MultiSelect({canSelectMultiple, displayKey}) {
     setMultiSelect(!isMultiSelect);
   }
 
-  const onDelete = useCallback((event, id) => {
+  const onDelete = useCallback((event, id, parentId) => {
     event.stopPropagation();
     dispatch({
       type: TYPES.ON_ITEM_TOGGLE,
       id,
+      parentId,
       checked: false
     })
   }, []);
@@ -82,8 +83,8 @@ function MultiSelect({canSelectMultiple, displayKey}) {
     selectedOptionsArray = selectedData.map(v => options[v]);
   }
 
-  // console.log(options);
-  // console.log('selectedData'+selectedData);
+  console.log(options);
+  console.log('selectedData - '+selectedData);
   // console.log('selectedOptionsArray'); console.log(selectedOptionsArray);
   return (
     <div className="multiselect-view">
@@ -101,6 +102,7 @@ function MultiSelect({canSelectMultiple, displayKey}) {
                 <SelectedOption
                   key={option.id}
                   id={option.id}
+                  parentId={option.parent}
                   displayVal={option[displayKey]}
                   onDelete={onDelete}/>
               ) : 'Please select a value'}
@@ -115,22 +117,24 @@ function MultiSelect({canSelectMultiple, displayKey}) {
               placeholder={`Search for a ${displayKey}`}/>
             {Object.values(options).map(option => (
               <React.Fragment key={option.id}>
-                <Option
-                  id={option.id}
-                  displayVal={option[displayKey]}
-                  hidden={option.hidden}
-                  isChecked={option.checked}
-                  isDisabled={!isMultiSelect && selectedData.length && !selectedData.includes(option.id) ? true : false}
-                  onCheckHandler={onCheckHandler}/>
-
-                {option.cites && Object.values(option.cites).map(v => (
+                {!option.parent && (
                   <Option
-                    key={v.id}
-                    id={v.id}
-                    displayVal={v[displayKey]}
-                    hidden={v.hidden}
-                    isChecked={v.checked}
-                    isDisabled={!isMultiSelect && selectedData.length && !selectedData.includes(v.id) ? true : false}
+                    id={option.id}
+                    displayVal={option[displayKey]}
+                    hidden={option.hidden}
+                    isChecked={option.checked}
+                    isDisabled={!isMultiSelect && selectedData.length && !selectedData.includes(option.id) ? true : false}
+                    onCheckHandler={onCheckHandler}/>
+                )}
+
+                {option.cites && option.cites.map(v => (
+                  <Option
+                    key={options[v].id}
+                    id={options[v].id}
+                    displayVal={options[v][displayKey]}
+                    hidden={options[v].hidden}
+                    isChecked={options[v].checked}
+                    isDisabled={!isMultiSelect && selectedData.length && !selectedData.includes(options[v].id) ? true : false}
                     onCheckHandler={onCheckHandler}
                     parentId={option.id}/>
                   ) 

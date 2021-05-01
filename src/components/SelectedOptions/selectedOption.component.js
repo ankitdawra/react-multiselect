@@ -2,7 +2,7 @@ import React from 'react';
 
 import './selectedOption.scss';
 
-function SelectedOption({id, displayVal, onDelete}) {
+function SelectedOption({id, parentId, displayVal, onDelete}) {
   console.log('hereeee');
   return (
     <div
@@ -13,7 +13,7 @@ function SelectedOption({id, displayVal, onDelete}) {
       <button
         type="button"
         className="close ml-1"
-        onClick={e => onDelete(e, id)}>
+        onClick={e => onDelete(e, id, parentId)}>
         <span>&times;</span>
       </button>
     </div>

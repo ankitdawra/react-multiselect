@@ -26,45 +26,87 @@ function MultiselectReducer(state = initialState, action) {
         loading: false
       }
 
-    case TYPES.PUSH_ITEM: 
-      // updatedOptions = state.options.map(op => {
-      //   if (op.id == action.payload) {
-      //     return {
-      //       ...op,
-      //       checked: true
-      //     }
-      //   }
-      //   return op;
-      // });
-      state.options[action.payload.id] = {
-        ...state.options[action.payload.id],
+    case TYPES.PUSH_ITEM: {
+      const {options} = state;
+      const {id, parentId} = action.payload;
+
+      // To handle current clicked item
+      options[id] = {
+        ...options[id],
         checked: true
       }
+
+      // To handle current checked item's cites
+      const cites = options[id].cites || [];
+      if (cites.length) {
+        cites.map(cityId => {
+          options[cityId] = {
+            ...options[cityId],
+            checked: true
+          }
+        })
+      }
+
+      // To handle parent if all cites checked
+      if (parentId) {
+        const parent = options[parentId];
+        const everyCityChecked = parent.cites.every(cityId => options[cityId].checked)
+        if(everyCityChecked) {
+          options[parentId] = {
+            ...options[parentId],
+            checked: true
+          }
+        }
+      }
+
       return {
         ...state,
-        selectedData: state.selectedData.concat(parseInt(action.payload.id)),
-        // options: updatedOptions
+        selectedData: [...new Set(state.selectedData.concat(parseInt(id), cites))],
       };
+    }
 
-    case TYPES.PULL_ITEM:
-      // updatedOptions = state.options.map(op => {
-      //   if (op.id == action.payload) {
-      //     return {
-      //       ...op,
-      //       checked: false
-      //     }
-      //   }
-      //   return op;
-      // });
-      state.options[action.payload] = {
-        ...state.options[action.payload],
+    case TYPES.PULL_ITEM: {
+      console.log(state);
+      const {options} = state;
+      const {id, parentId} = action.payload;
+      console.log(id, parentId);
+
+      // To handle current clicked item
+      options[id] = {
+        ...options[id],
         checked: false
       }
+
+      // To handle current checked item's cites
+      const cites = options[id].cites || [];
+      if (cites.length) {
+        cites.map(cityId => {
+          options[cityId] = {
+            ...options[cityId],
+            checked: false
+          }
+        })
+      }
+
+      // To handle parent if all cites are not checked
+      if (parentId) {
+        const parent = options[parentId];
+        const everyCityChecked = parent.cites.every(cityId => options[cityId].checked);
+        if(!everyCityChecked) {
+          options[parentId] = {
+            ...options[parentId],
+            checked: false
+          }
+        }
+      }
+
       return {
         ...state,
-        selectedData: state.selectedData.filter(v => v !== parseInt(action.payload)),
-        // options: updatedOptions
+        selectedData: state.selectedData.filter(v => {
+          return v !== parseInt(id) && cites.indexOf(v) === -1;
+        }),
       };
+    }
 
     case TYPES.RESET:
       return {

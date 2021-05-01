@@ -61,7 +61,8 @@ function MultiselectReducer(state = initialState, action) {
 
       return {
         ...state,
-        selectedData: [...new Set(state.selectedData.concat(parseInt(id), cites))],
+        selectedData: Object.values(options).map(v => v.checked ? v.id : null).filter(v => v)
+        // selectedData: [...new Set(state.selectedData.concat(parseInt(id), cites))],
       };
     }
 
@@ -102,9 +103,10 @@ function MultiselectReducer(state = initialState, action) {
 
       return {
         ...state,
-        selectedData: state.selectedData.filter(v => {
-          return v !== parseInt(id) && cites.indexOf(v) === -1;
-        }),
+        selectedData: Object.values(options).map(v => v.checked ? v.id : null).filter(v => v)
+        // selectedData: state.selectedData.filter(v => {
+        //   return v !== parseInt(id) && cites.indexOf(v) !== -1;
+        // }),
       };
     }
 

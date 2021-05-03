@@ -5,3 +5,4 @@ export const PUSH_ITEM = 'PUSH_ITEM';
 export const PULL_ITEM = 'PULL_ITEM';
 export const RESET = 'RESET';
 export const FILTER_OPTIONS = 'FILTER_OPTIONS';
+export const CHANGE_VIEW_BY = 'CHANGE_VIEW_BY';

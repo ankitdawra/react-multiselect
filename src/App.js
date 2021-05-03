@@ -9,9 +9,7 @@ function App() {
     <div className="App">
       <div id="portal-wrapper"></div>
       <MultiSelect
-        canSelectMultiple={true}
-        displayKey="title"
-      />
+        canSelectMultiple={true}/>
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

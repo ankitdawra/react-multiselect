@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Option({id, displayVal, hidden, isChecked, isDisabled, onCheckHandler, parentId}) {
-  console.log(id);
+  // console.log(id);
   if (hidden) {
     return null;
   }
@@ -16,7 +16,7 @@ function Option({id, displayVal, hidden, isChecked, isDisabled, onCheckHandler, 
             value={id}
             disabled={isDisabled}
             checked={isChecked}/>
-          {displayVal}
+          <div dangerouslySetInnerHTML={{__html: displayVal}}></div>
         </label>
       </div>
     </>

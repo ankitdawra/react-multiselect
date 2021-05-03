@@ -4,7 +4,7 @@ export const options = [
     value: 'Ind',
     title: 'This is india',
     name: 'India',
-    icon: '',
+    icon: '<img src="https://www.countryflags.io/in/shiny/64.png"/>',
     checked: false,
     cites: [11, 12, 13]
   },
@@ -13,7 +13,7 @@ export const options = [
     value: 'Del',
     title: 'This is delhi',
     name: 'Delhi',
-    icon: '',
+    icon: '<img src="https://www.countryflags.io/UA/flat/64.png"/>',
     checked: false,
     parent: 1
   },
@@ -22,7 +22,7 @@ export const options = [
     value: 'Pun',
     title: 'This is punjab',
     name: 'Punjab',
-    icon: '',
+    icon: '<img src="https://www.countryflags.io/TZ/flat/64.png"/>',
     checked: false,
     parent: 1
   },
@@ -31,7 +31,7 @@ export const options = [
     value: 'Har',
     title: 'This is haryana',
     name: 'Haryana',
-    icon: '',
+    icon: '<img src="https://www.countryflags.io/TW/flat/64.png"/>',
     checked: false,
     parent: 1
   },
@@ -40,7 +40,7 @@ export const options = [
     value: 'Aus',
     title: 'This is australia',
     name: 'Australia',
-    icon: '',
+    icon: '<img src="https://www.countryflags.io/IT/flat/64.png"/>',
     checked: false
   },
   {
@@ -48,7 +48,7 @@ export const options = [
     value: 'UK',
     title: 'This is uk',
     name: 'United kingdom',
-    icon: '',
+    icon: '<img src="https://www.countryflags.io/JE/flat/64.png"/>',
     checked: false
   },
   {
@@ -56,7 +56,7 @@ export const options = [
     value: 'Ger',
     title: 'This is germany',
     name: 'Germany',
-    icon: '',
+    icon: '<img src="https://www.countryflags.io/ZA/flat/64.png"/>',
     checked: false
   },
   {
@@ -64,7 +64,7 @@ export const options = [
     value: 'Ame',
     title: 'This is america',
     name: 'America',
-    icon: '',
+    icon: '<img src="https://www.countryflags.io/YT/flat/64.png"/>',
     checked: false
   },
   {
@@ -72,7 +72,7 @@ export const options = [
     value: 'Pak',
     title: 'This is pakistan',
     name: 'Pakistan',
-    icon: '',
+    icon: '<img src="https://www.countryflags.io/YE/flat/64.png"/>',
     checked: false
   },
   {
@@ -80,7 +80,7 @@ export const options = [
     value: 'SL',
     title: 'This is sri lanka',
     name: 'Sri Lanka',
-    icon: '',
+    icon: '<img src="https://www.countryflags.io/XK/flat/64.png"/>',
     checked: false
   },
   {
@@ -88,7 +88,7 @@ export const options = [
     value: 'ch',
     title: 'This is china',
     name: 'China',
-    icon: '',
+    icon: '<img src="https://www.countryflags.io/WS/flat/64.png"/>',
     checked: false
   },
 ]

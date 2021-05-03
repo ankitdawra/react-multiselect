@@ -6,7 +6,8 @@ const initialState = {
   isMultiSelect: true,
   options: {},
   loading: false,
-  selectedData: []
+  selectedData: [],
+  displayKey: 'title'
 }
 
 function MultiselectReducer(state = initialState, action) {
@@ -67,10 +68,10 @@ function MultiselectReducer(state = initialState, action) {
     }
 
     case TYPES.PULL_ITEM: {
-      console.log(state);
+      // console.log(state);
       const {options} = state;
       const {id, parentId} = action.payload;
-      console.log(id, parentId);
+      // console.log(id, parentId);
 
       // To handle current clicked item
       options[id] = {
@@ -79,27 +80,27 @@ function MultiselectReducer(state = initialState, action) {
       }
 
       // To handle current checked item's cites
-      const cites = options[id].cites || [];
-      if (cites.length) {
-        cites.map(cityId => {
-          options[cityId] = {
-            ...options[cityId],
-            checked: false
-          }
-        })
-      }
+      // const cites = options[id].cites || [];
+      // if (cites.length) {
+      //   cites.map(cityId => {
+      //     options[cityId] = {
+      //       ...options[cityId],
+      //       checked: false
+      //     }
+      //   })
+      // }
 
       // To handle parent if all cites are not checked
-      if (parentId) {
-        const parent = options[parentId];
-        const everyCityChecked = parent.cites.every(cityId => options[cityId].checked);
-        if(!everyCityChecked) {
-          options[parentId] = {
-            ...options[parentId],
-            checked: false
-          }
-        }
-      }
+      // if (parentId) {
+      //   const parent = options[parentId];
+      //   const everyCityChecked = parent.cites.every(cityId => options[cityId].checked);
+      //   if(!everyCityChecked) {
+      //     options[parentId] = {
+      //       ...options[parentId],
+      //       checked: false
+      //     }
+      //   }
+      // }
 
       return {
         ...state,
@@ -128,6 +129,12 @@ function MultiselectReducer(state = initialState, action) {
       return {
         ...state,
         options: filteredOptions
+      }
+
+    case TYPES.CHANGE_VIEW_BY:
+      return {
+        ...state,
+        displayKey: action.viewBy
       }
 
     default:

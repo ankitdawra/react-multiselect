@@ -18,13 +18,13 @@ import './multiselect.scss';
 // }
 
 
-function MultiSelect({canSelectMultiple, displayKey}) {
+function MultiSelect({canSelectMultiple}) {
   const [showOptions, toggleOptions] = useState(true);
   const [isMultiSelect, setMultiSelect] = useState(canSelectMultiple);
   const [filterVal, setFilterVal] = useState('');
   const dispatch = useDispatch();
 
-  const {options, loading, selectedData} = useSelector(({MultiselectReducer}) => MultiselectReducer);
+  const {options, loading, selectedData, displayKey} = useSelector(({MultiselectReducer}) => MultiselectReducer);
 
   useEffect(() => {
     dispatch({type: TYPES.LOADING_ITEMS_START})
@@ -72,6 +72,14 @@ function MultiSelect({canSelectMultiple, displayKey}) {
       // }, 1000);
   }
 
+  const changeViewBy = ({target: {value}}) => {
+    console.log(value);
+    dispatch({
+      type: TYPES.CHANGE_VIEW_BY,
+      viewBy: value
+    })
+  }
+
   if (loading) {
     return (
       <Loader/>
@@ -83,18 +91,32 @@ function MultiSelect({canSelectMultiple, displayKey}) {
     selectedOptionsArray = selectedData.map(v => options[v]);
   }
 
-  console.log(options);
-  console.log('selectedData - '+selectedData);
+  // console.log(options);
+  // console.log('selectedData - '+selectedData);
   // console.log('selectedOptionsArray'); console.log(selectedOptionsArray);
   return (
     <div className="multiselect-view">
       <div>
-        <button type="button"
-                className={`btn form-group ${isMultiSelect ? 'btn-primary' : 'btn-light'}`}
-                onClick={onMultiSelectClick}>
-          MultiSelect : {isMultiSelect ? 'ON' : 'OFF'}
-        </button>
-        <div className="form-group">
+        <div className="form-inline justify-content-between mb-3">
+          <div className="form-group">
+            <button type="button"
+                    className={`btn form-control ${isMultiSelect ? 'btn-primary' : 'btn-light'}`}
+                    onClick={onMultiSelectClick}>
+              MultiSelect : {isMultiSelect ? 'ON' : 'OFF'}
+            </button>
+          </div>
+          <div className="form-group">
+            <select onChange={changeViewBy}
+                    className="form-control"
+                    value={displayKey}>
+              <option>View By</option>
+              <option value="title">Title</option>
+              <option value="name">Name</option>
+              <option value="icon">Icon</option>
+            </select>
+          </div>
+        </div>
+        <div>
           <div className="selected-options form-group"
                onClick={() => toggleOptions(!showOptions)}>
             {selectedOptionsArray.length > 0 ? 
@@ -108,7 +130,7 @@ function MultiSelect({canSelectMultiple, displayKey}) {
               ) : 'Please select a value'}
             <span className={`show-options-icon ${showOptions ? 'open-icon' : 'close-icon'}`}>^</span>
           </div>
-          <div className={`options ${showOptions ? 'visible' : null}`}>
+          <div className={`form-group options ${showOptions ? 'visible' : null}`}>
             <input
               type="text"
               value={filterVal}

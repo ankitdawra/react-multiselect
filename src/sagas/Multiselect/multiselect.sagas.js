@@ -15,8 +15,6 @@ options.forEach(option => {
   // }
 })
 
-console.log(ops);
-
 function* loadItems() {
   yield put({type: MULTISELECT_ACTION_TYPES.LOADING_ITEMS_START});
   yield delay(100);
@@ -49,11 +47,16 @@ function* filterOptions({payload}) {
   });
 }
 
+function* changeViewBy({viewBy}) {
+  yield put({type:MULTISELECT_ACTION_TYPES.CHANGE_VIEW_BY, viewBy})
+}
+
 export function* multiselectSagaWatcher() {
   yield all([
     takeEvery(MULTISELECT_SAGA_TYPES.LOADING_ITEMS_START, loadItems),
     takeEvery(MULTISELECT_SAGA_TYPES.ON_ITEM_TOGGLE, onToggle),
     takeEvery(MULTISELECT_SAGA_TYPES.RESET, reset),
-    takeLatest(MULTISELECT_SAGA_TYPES.FILTER_OPTIONS, filterOptions)
+    takeLatest(MULTISELECT_SAGA_TYPES.FILTER_OPTIONS, filterOptions),
+    takeLatest(MULTISELECT_SAGA_TYPES.CHANGE_VIEW_BY, changeViewBy),
   ]);
 }

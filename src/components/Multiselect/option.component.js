@@ -1,7 +1,6 @@
 import React from 'react';
 
 function Option({id, displayVal, hidden, isChecked, isDisabled, onCheckHandler, parentId}) {
-  // console.log(id);
   if (hidden) {
     return null;
   }

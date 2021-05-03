@@ -3,7 +3,6 @@ import React from 'react';
 import './selectedOption.scss';
 
 function SelectedOption({id, parentId, displayVal, onDelete}) {
-  // console.log('hereeee');
   return (
     <div
       type="button"

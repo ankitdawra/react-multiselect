@@ -5,9 +5,9 @@ let updatedOptions;
 const initialState = {
   isMultiSelect: true,
   options: {},
-  loading: false,
+  loading: true,
   selectedData: [],
-  displayKey: 'title'
+  displayKey: 'name'
 }
 
 function MultiselectReducer(state = initialState, action) {
@@ -68,10 +68,8 @@ function MultiselectReducer(state = initialState, action) {
     }
 
     case TYPES.PULL_ITEM: {
-      // console.log(state);
       const {options} = state;
       const {id, parentId} = action.payload;
-      // console.log(id, parentId);
 
       // To handle current clicked item
       options[id] = {

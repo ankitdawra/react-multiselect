@@ -31,7 +31,6 @@ function MultiSelect({canSelectMultiple}) {
   }, [])
 
   const onCheckHandler = useCallback(({target: {value: id, checked}}, parentId) => {
-    // console.log(id, checked, parentId);
     dispatch({
       type: TYPES.ON_ITEM_TOGGLE,
       id,
@@ -73,7 +72,6 @@ function MultiSelect({canSelectMultiple}) {
   }
 
   const changeViewBy = ({target: {value}}) => {
-    console.log(value);
     dispatch({
       type: TYPES.CHANGE_VIEW_BY,
       viewBy: value
@@ -91,9 +89,6 @@ function MultiSelect({canSelectMultiple}) {
     selectedOptionsArray = selectedData.map(v => options[v]);
   }
 
-  // console.log(options);
-  // console.log('selectedData - '+selectedData);
-  // console.log('selectedOptionsArray'); console.log(selectedOptionsArray);
   return (
     <div className="multiselect-view">
       <div>
@@ -109,7 +104,7 @@ function MultiSelect({canSelectMultiple}) {
             <select onChange={changeViewBy}
                     className="form-control"
                     value={displayKey}>
-              <option>View By</option>
+              <option disabled>View By</option>
               <option value="title">Title</option>
               <option value="name">Name</option>
               <option value="icon">Icon</option>

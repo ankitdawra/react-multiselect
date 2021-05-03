@@ -4,10 +4,9 @@ import SelectedOption from './selectedOption.component';
 import SelectedOptionsModal from './selectedOptionsModal.component'
 
 
-const MAX_ELEMENT_DISPLAYED = 2;
+const MAX_ELEMENT_DISPLAYED = 5;
 
 function SelectedOptions({selectedOptionsArray, displayKey, onDelete}) {
-  // console.log('SelectedOptions re-render');
   const [showModal, setShowModal] = useState(false);
 
   return (

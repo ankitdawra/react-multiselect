@@ -17,7 +17,7 @@ options.forEach(option => {
 
 function* loadItems() {
   yield put({type: MULTISELECT_ACTION_TYPES.LOADING_ITEMS_START});
-  yield delay(100);
+  yield delay(1000);
   yield put({type: MULTISELECT_ACTION_TYPES.LOADING_ITEMS_STOP, options:{...ops}});
 }
 
